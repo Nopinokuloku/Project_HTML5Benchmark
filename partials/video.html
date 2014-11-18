@@ -1,0 +1,31 @@
+<div><h1>{{title}}</h1></div>
+<!--<span>Format : </span>
+	<select id='selectForm' class="form-control" ng-model='selectForm' required ng-options='format.id as format.name for format in formats' ng-change="loadVideo()"></select>-->
+<video class="video" width="720" height="360" controls>
+	<source class="videoSrc" src="img/videos/1280x720.webm" type="video/webm">
+	Your browser does not support the video tag.
+</video>
+
+<script src="//f.vimeocdn.com/js/froogaloop2.min.js"></script>
+<iframe id="player1" src="//player.vimeo.com/video/76979871?api=1&player_id=player1" width="630" height="354" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+
+<div class="video" id="ytplayer"></div>
+
+<script>
+  // Load the IFrame Player API code asynchronously.
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/player_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  // Replace the 'ytplayer' element with an <iframe> and
+  // YouTube player after the API code downloads.
+  var player;
+  function onYouTubePlayerAPIReady() {
+    player = new YT.Player('ytplayer', {
+      height: '390',
+      width: '640',
+      videoId: 'M7lc1UVf-VE'
+    });
+  }
+</script>

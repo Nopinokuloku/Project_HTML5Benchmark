@@ -1,0 +1,11 @@
+<div><h1>{{title}}</h1></div>
+<div>
+	<input type="number" class="form-control" id="inNbGen" placeholder="Number of elements to generate" min="1">
+	<br>
+	<span>Dimension : </span>
+	<select id='selectDim' class="form-control" ng-model='selectDim' required ng-options='dimension.id as dimension.name for dimension in dimensions'></select>
+	<br>
+	<span>Format : </span>
+	<select id='selectForm' class="form-control" ng-model='selectForm' required ng-options='format.id as format.name for format in formats'></select>
+	<div class="btn run" ng-click="run()">Run</div>
+</div>
