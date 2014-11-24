@@ -324,83 +324,215 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
         }])
     .controller('DBController',function($scope, model){
         $scope.title="Database";
-        $scope.run = function(){
-            var nbRequest = $('#inNbReq').val();
-            var nbSteps = 4;
-            var time = 500;
-            var progressBar = 0;
-            var i;
-            $('#progress').css('display','block');
-            $('#btnDone').attr('disabled','disabled');
-            
-            //Adding data
-            i=0;
-            while(i<nbRequest){
-                $.when(model.insert({num:randomGen('num'),str:randomGen('str')})).done(
-                    function(){
-                        setTimeout(function(){
-                            $('#task').html('Adding Data...');
-                            progressBar++;
-                            $('.currentProgress').css('width',progressBar*100/(nbSteps*nbRequest)+"%");
-                        },progressBar*time);
-                        i++;
-                    });
+        $scope.step = 0;
+        
+        model.getAll(function(obj){
+            setAvailableActions(obj.length);
+        });
+        
+        function setAvailableActions(nb){
+            if(nb>0){
+                $("#btnSelect").removeAttr('disabled');
+                $("#btnUpdate").removeAttr('disabled');
+                $("#btnDelete").removeAttr('disabled');
+            }else{
+                $("#btnSelect").attr('disabled','disabled');
+                $("#btnUpdate").attr('disabled','disabled');
+                $("#btnDelete").attr('disabled','disabled');
             }
-                
-            model.getAll(function(data){
-                //Getting data
-                i=0;
-                while(i<nbRequest){
-                    $.when(model.getDataById({id:data[i]['id_dataset']},
-                        function(e){
-                            //console.log(e);
-                        })).done(
-                    function(){
-                        setTimeout(function(){
-                            $('#task').html('Getting Data...');
-                            progressBar++;
-                            $('.currentProgress').css('width',progressBar*100/(nbSteps*nbRequest)+"%");
-                        },progressBar*time);
-                        i++;
-                    });
-                }
+        }
 
-                //Updating data
-                i=0;
-                while(i<nbRequest){
-                    $.when(model.update({id:data[i]['id_dataset'],num:randomGen('num'),str:randomGen('str')})).done(
-                        function(){
-                            setTimeout(function(){
-                                $('#task').html('Updating Data...');
-                                progressBar++;
-                                $('.currentProgress').css('width',progressBar*100/(nbSteps*nbRequest)+"%");
-                            },progressBar*time);
-                            i++;
-                        });
-                }
-                
-                //Deleting data
-                i=0;
-                while(i<nbRequest){
-                    $.when(model.delete({id:data[i]['id_dataset']})).done(
-                        function(){
-                            setTimeout(function(){
-                                $('#task').html('Deleting Data...');
-                                progressBar++;
-                                $('.currentProgress').css('width',progressBar*100/(nbSteps*nbRequest)+"%");
-                            },progressBar*time);
-                            i++;
-                        });
-                }
-                setTimeout(function(){
+        function proceed(config){
+            $('.currentProgress').css('width',config.progress*100/config.loop+"%");
+            if(parseInt($('.currentProgress').css('width').split('px')[0])+2>parseInt($('.progressBar').css('width').split('px')[0])){
+                if(config.mode){
+                    $scope.step++;
+                    if($scope.step==4){
+                        $('#task').html('Done !');
+                        $('#btnDone').removeAttr('disabled');
+                    }else{
+                        $('#task').html(config.state);
+                        $('#btnDone').attr('disabled','disabled');
+                    }
+                }else{
                     $('#task').html('Done !');
                     $('#btnDone').removeAttr('disabled');
-                },progressBar*time);
-            });            
+                }
+            }else{
+                $('#task').html(config.state);
+                $('#btnDone').attr('disabled','disabled');
+            }
+        }
+
+        function loop(code,config){
+            var progressBar = 0;
+            var i=0;
+            $('#progress').css('display','block');
+            $('.currentProgress').css('width',"0%");
+            switch(code){
+                case 'insert':
+                    var state = 'Adding Data...';
+                    $('#task').html(state);
+                    for(i=0;i<config.loop;i++){
+                        model.insert({num:randomGen('num'),str:randomGen('str')},function(e){
+                            if(e){
+                                progressBar++;
+                                proceed({progress:progressBar,loop:config.loop,state:state,mode:config.mode});
+                            }
+                        });
+                    }
+                break;
+                case 'update':
+                    var state = 'Updating Data...';
+                    $('#task').html(state);
+                    for(var i=0; i<config.loop; i++){
+                        model.update({id:config.obj[i]['id_dataset'],num:randomGen('num'),str:randomGen('str')},function(e){
+                            if(e){
+                                progressBar++;
+                                proceed({progress:progressBar,loop:config.loop,state:state,mode:config.mode});
+                            }
+                        });
+                    }
+                break;
+                case 'select':
+                    var state = 'Getting Data...';
+                    $('#task').html(state);
+                    for(var i=0; i<config.loop; i++){
+                        model.getDataById({id:config.obj[i]['id_dataset']},function(e){
+                            if(e){
+                                progressBar++;
+                                proceed({progress:progressBar,loop:config.loop,state:state,mode:config.mode});
+                            }
+                        });
+                    }
+                break;
+                case 'delete':
+                    var state = 'Deleting Data...';
+                    $('#task').html(state);
+                    for(var i=0; i<config.loop; i++){
+                        model.delete({id:config.obj[i]['id_dataset']},function(e){
+                            if(e){
+                                progressBar++;
+                                proceed({progress:progressBar,loop:config.loop,state:state,mode:config.mode});
+                            }
+                        });
+                    }
+                break;
+            }
+        }
+        
+        //Listeners
+        /*
+         * mode : optional 0:default; 1:run
+         */
+        $scope.insert=function(mode){
+            var nbRequest = parseInt($('#inNbReq').val());
+            if(isNaN(nbRequest)){
+                alert('Please fill the fields');
+            }else{
+                loop('insert',{loop:nbRequest,mode:mode});
+            }
+        }
+
+        $scope.select=function(mode){
+            var nbRequest = parseInt($('#inNbReq').val());
+            if(isNaN(nbRequest)){
+                alert('Please fill the fields');
+            }else{
+                model.getAll(function(obj){
+                    if(obj.length<nbRequest && !mode){
+                        if(confirm("Warning : There is only "+obj.length+" elements to treat in the database.\n Continue ?")){
+                           loop('select',{loop:obj.length,obj:obj});
+                        }
+                    }else{
+                        if(mode){
+                            setTimeout(function(){
+                                if(obj.length<nbRequest || $scope.step!=1){
+                                    $scope.select(1);
+                                }else{
+                                    loop('select',{loop:nbRequest,obj:obj,mode:mode});
+                                }
+                            },500);
+                        }else{
+                            loop('select',{loop:nbRequest,obj:obj});
+                        }
+                    }
+                });
+            }
+        }
+
+        $scope.update=function(mode){
+            var nbRequest = parseInt($('#inNbReq').val());
+            if(isNaN(nbRequest)){
+                alert('Please fill the fields');
+            }else{
+                model.getAll(function(obj){
+                    if(obj.length<nbRequest && !mode){
+                        if(confirm("Warning : There is only "+obj.length+" elements to treat in the database.\n Continue ?")){
+                           loop('update',{loop:obj.length,obj:obj});
+                        }
+                    }else{
+                        if(mode){
+                            setTimeout(function(){
+                                if($scope.step!=2){
+                                    $scope.update(1);
+                                }else{
+                                    loop('update',{loop:nbRequest,obj:obj,mode:mode});
+                                }
+                            },500);
+                        }else{
+                            loop('update',{loop:nbRequest,obj:obj});
+                        }
+                    }
+                });
+            }
+        }
+
+        $scope.delete=function(mode){
+            var nbRequest = parseInt($('#inNbReq').val());
+            if(isNaN(nbRequest)){
+                alert('Please fill the fields');
+            }else{
+                model.getAll(function(obj){
+                    if(obj.length<nbRequest && !mode){
+                        if(confirm("Warning : There is only "+obj.length+" elements to treat in the database.\n Continue ?")){
+                           loop('delete',{loop:obj.length,obj:obj});
+                        }
+                    }else{
+                        if(mode){
+                            setTimeout(function(){
+                                if($scope.step!=3){
+                                    $scope.delete(1);
+                                }else{
+                                    loop('delete',{loop:nbRequest,obj:obj,mode:mode});
+                                }
+                            },500);
+                        }else{
+                            loop('delete',{loop:nbRequest,obj:obj});
+                        }
+                    }
+                });
+            }
+        }
+
+        $scope.run = function(){
+            $scope.step = 0;
+            var nbRequest = parseInt($('#inNbReq').val());
+            if(isNaN(nbRequest)){
+                alert('Please fill the fields');
+            }else{
+                $scope.insert(1);
+                $scope.select(1);
+                $scope.update(1);
+                $scope.delete(1);
+            }
         }
 
         $scope.done=function(){
             $('#progress').css('display','none');
+            model.getAll(function(obj){
+                setAvailableActions(obj.length);
+            });
         }
     })
     .controller('GPSController',['$scope', function($scope){

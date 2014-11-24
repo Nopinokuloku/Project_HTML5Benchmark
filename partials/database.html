@@ -1,7 +1,11 @@
 <div><h1>{{title}}</h1></div>
 <input type="number" class="form-control" id="inNbReq" placeholder="Number of request" min="1">
 <br>
-<div class="btn run" ng-click="run()">Run</div>
+<div class="btn" id="btnInsert" ng-click="insert()">Insert</div>
+<div class="btn" id="btnSelect" ng-click="select()">Select</div>
+<div class="btn" id="btnUpdate" ng-click="update()">Update</div>
+<div class="btn" id="btnDelete" ng-click="delete()">Delete</div>
+<div class="btn" ng-click="run()">Run All</div>
 <div id="progress">
 	<div id="toast">
 		<h1> Loading... </h1>

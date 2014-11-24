@@ -253,3 +253,10 @@ footer{
   /*color: white;
   margin: 170px;*/
 }
+
+#task{
+  position: relative;
+  width: 85%;
+  margin: auto;
+  overflow: hidden;
+}

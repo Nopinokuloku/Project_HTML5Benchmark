@@ -1,10 +1,10 @@
 <?php
 	require_once('conf.php');
 	$m = new Model();
-	$code = $_POST['code'] ? $_POST['code'] :null;
+	$code = $_POST['code'] ? $_POST['code'] :'null';
 	switch ($code) {
 		case 'getDataByID':
-			$id = $_POST['data']['id'] ? $_POST['data']['id'] : null;
+			$id = $_POST['data']['id'] ? $_POST['data']['id'] : 'null';
 			if($id!=null){
 				$m->getDataByID(array('id'=>$id));
 			}
@@ -13,20 +13,20 @@
 				$m->getAllData();
 			break;
 		case 'update':
-			$id = $_POST['data']['id'] ? $_POST['data']['id'] : null;
-			$num = $_POST['data']['num'] ? $_POST['data']['num'] : null;
-			$str = $_POST['data']['str'] ? $_POST['data']['str'] : null;
+			$id = $_POST['data']['id'] ? $_POST['data']['id'] : 'null';
+			$num = $_POST['data']['num'] ? $_POST['data']['num'] : 'null';
+			$str = $_POST['data']['str'] ? $_POST['data']['str'] : 'null';
 			if($id!=null){
 				$m->update(array('id'=>$id,'num'=>$num,'str'=>$str));
 			}
 			break;
 		case 'insert':
-			$num = $_POST['data']['num'] ? $_POST['data']['num'] : null;
-			$str = $_POST['data']['str'] ? $_POST['data']['str'] : null;
+			$num = $_POST['data']['num'] ? $_POST['data']['num'] : 'null';
+			$str = $_POST['data']['str'] ? $_POST['data']['str'] : 'null';
 			$m->insert(array('num'=>$num,'str'=>$str));
 		break;
 		case 'delete':
-			$id = $_POST['data']['id'] ? $_POST['data']['id'] : null;
+			$id = $_POST['data']['id'] ? $_POST['data']['id'] : 'null';
 			if($id!=null){
 				$m->delete(array('id'=>$id));
 			}
@@ -64,8 +64,9 @@ class Model {
 			$out .=']';
 			echo($out);
 		}else{
-			echo("Error : Select Request");
-			//echo($sql);
+			echo("Error : Select Request \n");
+			echo($sql);
+			die ("\nerr:".mysql_error());
 		}
 	}
 
@@ -85,8 +86,9 @@ class Model {
 			$out .=']';
 			echo($out);
 		}else{
-			echo("Error : Select Request");
-			//echo($sql);
+			echo("Error : Select Request \n");
+			echo($sql);
+			die ("\nerr:".mysql_error());
 		}
 	}
 
@@ -107,8 +109,9 @@ class Model {
 		if(mysql_query($sql,$this->db)){
 			echo('Update request done successfully');
 		}else{
-			echo("Error : Update Request");
-			//echo($sql);
+			echo("Error : Update Request \n");
+			echo($sql);
+			die ("\nerr:".mysql_error());
 		}
 	}
 
@@ -120,8 +123,9 @@ class Model {
 		if(mysql_query($sql,$this->db)){ 
        		echo('Insert request done successfully');
    		}else{
-			echo("Error : Insert Request");
-			//echo($sql);
+			echo("Error : Insert Request \n");
+			echo($sql);
+			die ("\nerr:".mysql_error());
 		}
 	}
 
@@ -131,8 +135,9 @@ class Model {
 		if(mysql_query($sql,$this->db)){ 
 			echo('Delete request done successfully');
 		}else{
-			echo("Error : Delete Request");
-			//echo($sql);
+			echo("Error : Delete Request \n");
+			echo($sql);
+			die ("\nerr:".mysql_error());
 		}
 	}
 }

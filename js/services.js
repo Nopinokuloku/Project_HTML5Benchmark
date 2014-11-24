@@ -45,7 +45,7 @@ angular.module('myApp.services', []).
   })
   .service('model',function(){
     return{
-      insert:function(config){
+      insert:function(config,callback){
           $.ajax({
               url:"php/model.php",
               type:'POST',
@@ -55,12 +55,14 @@ angular.module('myApp.services', []).
               }),
               success:function(e){
                  console.log(e);
+                 return true;
               },error:function(e){
                   console.log('Error : AJAX');
+                  return false;
               }
-          });
+          }).then(function(resp){callback(resp);});
       },
-      update:function(config){
+      update:function(config,callback){
          $.ajax({
               url:"php/model.php",
               type:'POST',
@@ -70,12 +72,14 @@ angular.module('myApp.services', []).
               }),
               success:function(e){
                  console.log(e);
+                 return true;
               },error:function(e){
                   console.log('Error : AJAX');
+                  return false;
               }
-          });
+          }).then(function(resp){callback(resp);});
        },
-      delete:function(config){
+      delete:function(config,callback){
          $.ajax({
             url:"php/model.php",
             type:'POST',
@@ -85,10 +89,12 @@ angular.module('myApp.services', []).
             }),
             success:function(e){
                console.log(e);
+               return true;
             },error:function(e){
                 console.log('Error : AJAX');
+                return false;
             }
-        });
+        }).then(function(resp){callback(resp);});
       },
       getAll:function(callback){
         var JSONObject;
