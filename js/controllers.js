@@ -1,5 +1,4 @@
 'use strict';
-
 /*Data*/
         //bdd offre = (id,titre,description,logo,date_ajout,date_fin,positionX,positionY,promo,unite)
         //offre_cat
@@ -323,29 +322,87 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
             }
         };
         }])
-    .controller('DBController',['$scope', 'model', function($scope, model){
+    .controller('DBController',function($scope, model){
         $scope.title="Database";
-        model.then(function(e){
-            for(var i=0;i<100;i++){
-                e.addData({number:randomGen('num'),string:randomGen('str')});
+        $scope.run = function(){
+            var nbRequest = $('#inNbReq').val();
+            var nbSteps = 4;
+            var time = 500;
+            var progressBar = 0;
+            var i;
+            $('#progress').css('display','block');
+            $('#btnDone').attr('disabled','disabled');
+            
+            //Adding data
+            i=0;
+            while(i<nbRequest){
+                $.when(model.insert({num:randomGen('num'),str:randomGen('str')})).done(
+                    function(){
+                        setTimeout(function(){
+                            $('#task').html('Adding Data...');
+                            progressBar++;
+                            $('.currentProgress').css('width',progressBar*100/(nbSteps*nbRequest)+"%");
+                        },progressBar*time);
+                        i++;
+                    });
             }
-        });
-        /*
-         * setting : nombre d'element a traiter
-         * warning : differe selon la solution opté
-         *      - elasticsearch ?
-         *      - technologie php ?
-         *      - file
-         */
-        /*var setting = 100;
-        dataSet.then(function(data){
-            console.log(data);
-            console.log("updating...");
-            console.log("adding new data...");
-            console.log("updating data...");
-            console.log("deleting data...");
-        });*/
-        }])
+                
+            model.getAll(function(data){
+                //Getting data
+                i=0;
+                while(i<nbRequest){
+                    $.when(model.getDataById({id:data[i]['id_dataset']},
+                        function(e){
+                            //console.log(e);
+                        })).done(
+                    function(){
+                        setTimeout(function(){
+                            $('#task').html('Getting Data...');
+                            progressBar++;
+                            $('.currentProgress').css('width',progressBar*100/(nbSteps*nbRequest)+"%");
+                        },progressBar*time);
+                        i++;
+                    });
+                }
+
+                //Updating data
+                i=0;
+                while(i<nbRequest){
+                    $.when(model.update({id:data[i]['id_dataset'],num:randomGen('num'),str:randomGen('str')})).done(
+                        function(){
+                            setTimeout(function(){
+                                $('#task').html('Updating Data...');
+                                progressBar++;
+                                $('.currentProgress').css('width',progressBar*100/(nbSteps*nbRequest)+"%");
+                            },progressBar*time);
+                            i++;
+                        });
+                }
+                
+                //Deleting data
+                i=0;
+                while(i<nbRequest){
+                    $.when(model.delete({id:data[i]['id_dataset']})).done(
+                        function(){
+                            setTimeout(function(){
+                                $('#task').html('Deleting Data...');
+                                progressBar++;
+                                $('.currentProgress').css('width',progressBar*100/(nbSteps*nbRequest)+"%");
+                            },progressBar*time);
+                            i++;
+                        });
+                }
+                setTimeout(function(){
+                    $('#task').html('Done !');
+                    $('#btnDone').removeAttr('disabled');
+                },progressBar*time);
+            });            
+        }
+
+        $scope.done=function(){
+            $('#progress').css('display','none');
+        }
+    })
     .controller('GPSController',['$scope', function($scope){
         $scope.title="Geolocation";
         }])

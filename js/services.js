@@ -43,52 +43,86 @@ angular.module('myApp.services', []).
       }
     };
   })
-  /*.service('model',['$http', function($http){
-    var url = "data/dataset.csv";
-    var dataSet= $http.get(url).then(function(response){
-       return CSVToArray(response.data,',');
-    });
-
-    var index = getAttributes();
-    function getAttributes(){
-      var item={i_idDataset:'',i_number:'',i_string:''};
-      return dataSet.then(function(data){
-        for(var i=0;i<data[0].length;i++){
-          switch(data[0][i]){
-            case 'id_dataset':
-              item.i_idDataset = i;
-            break;
-            case 'number':
-              item.i_number = i;
-            break;
-            case 'string':
-              item.i_string = i;
-            break;
-          }
-        }
-        return item;
-      });
-    }
-
-
-
+  .service('model',function(){
     return{
-      test:function(){
-        return index;
+      insert:function(config){
+          $.ajax({
+              url:"php/model.php",
+              type:'POST',
+              data:({
+                  code:'insert',
+                  data : ({num: config.num,str: config.str})
+              }),
+              success:function(e){
+                 console.log(e);
+              },error:function(e){
+                  console.log('Error : AJAX');
+              }
+          });
       },
-      getByID:function(callback){},
-      getNumber:function(callback){},
-      getString:function(callback){},
-      addData:function(config,callback){
-        var csvData =[];
-        csvData.push();
-        csvData.push(config.number);
-        csvData.push(config.string);
-        var fso = new ActiveXObject('Scripting.FileSystemObject');
-        var oStream = fso.OpenTextFile(url, 8, true, 0);
-        oStream.WriteLine(csvData.join(','));
-        oStream.Close();
+      update:function(config){
+         $.ajax({
+              url:"php/model.php",
+              type:'POST',
+              data:({
+                  code:'update',
+                  data : ({id: config.id,num: config.num,str: config.str})
+              }),
+              success:function(e){
+                 console.log(e);
+              },error:function(e){
+                  console.log('Error : AJAX');
+              }
+          });
+       },
+      delete:function(config){
+         $.ajax({
+            url:"php/model.php",
+            type:'POST',
+            data:({
+                code:'delete',
+                data : ({id: config.id})
+            }),
+            success:function(e){
+               console.log(e);
+            },error:function(e){
+                console.log('Error : AJAX');
+            }
+        });
       },
-      delData:function(callback){},
+      getAll:function(callback){
+        var JSONObject;
+        $.ajax({
+            url:"php/model.php",
+            type:'POST',
+            data:({code:'getAllData'}),
+            success:function(e){
+                JSONObject = JSON.parse(e);
+                console.log("Select request done successfully");
+            },error:function(e){
+              console.log('Error : AJAX');
+            }
+        }).then(function(){callback(JSONObject);});
+        //return JSONObject;
+      },
+      getDataById:function(config,callback){
+        var JSONObject;
+        $.ajax({
+            url:"php/model.php",
+            type:'POST',
+            data:({
+                code:'getDataByID',
+                data : ({id: config.id})
+            }),
+            success:function(e){
+              JSONObject = JSON.parse(e);
+              console.log("Select request done successfully");
+            },error:function(e){
+                console.log('Error : AJAX');
+            }
+        }).then(function(){callback(JSONObject);});
+        //return JSONObject;
+      }
     };
-  }])*/;
+  })
+;
