@@ -82,8 +82,31 @@ footer{
   margin: auto;
 }
 
+
 .btn.run{
   margin-top: 50px;
+}
+
+.btn.run:disabled{
+  background-color:rgb(154, 192, 208);
+}
+
+.progressBar{
+  position: relative;
+  border: 1px solid rgb(140, 140, 140);
+  width: 85%;
+  margin: auto;
+  height: 15px;
+}
+
+.currentProgress{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  max-width: 100%;
+  background-color: rgb(0, 162, 232);
 }
 
 /**********Bootstrap**********/
@@ -121,7 +144,7 @@ footer{
 }
 
 #mainContent{
-  position: relative;
+  /*position: relative;*/
   background-color:rgb(255, 255, 255);
   background-attachment: fixed;
   padding: 100px 10px 0px 10px;
@@ -201,4 +224,32 @@ footer{
   /*background-color: gray;
   width: 720px;
   height: 360px;*/
+}
+
+/*Database*/
+#progress{
+  position: absolute;
+  display: none;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(89, 89, 89, 0.75);
+  /*url(../img/icons/load_bar.gif) no-repeat center*/
+  z-index: 3;
+}
+
+#toast{
+  position: relative;
+  background-color: rgb(255,255,255);
+  width: 500px;
+  height: 230px;
+  padding: 5px;
+  margin: 25px auto;
+}
+
+#toast>h1{
+  text-align: center;
+  /*color: white;
+  margin: 170px;*/
 }

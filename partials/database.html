@@ -1,0 +1,14 @@
+<div><h1>{{title}}</h1></div>
+<input type="number" class="form-control" id="inNbReq" placeholder="Number of request" min="1">
+<br>
+<div class="btn run" ng-click="run()">Run</div>
+<div id="progress">
+	<div id="toast">
+		<h1> Loading... </h1>
+		<div id="task"></div>
+		<div class="progressBar">
+			<div class="currentProgress"></div>
+		</div>
+		<div class="btn run" id="btnDone" ng-click="done()">done</div>
+	</div>
+</div>
