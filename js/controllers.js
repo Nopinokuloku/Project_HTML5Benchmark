@@ -537,6 +537,48 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
     })
     .controller('GPSController',['$scope', function($scope){
         $scope.title="Geolocation";
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(success, error);
+        } else {
+          error('Geolocation is not supported by this browser.');
+        }
+
+        function success(position){
+            var s = document.querySelector('#status');
+            s.innerHTML = "found you!";
+            var mapcanvas = document.createElement('div');
+            mapcanvas.id = 'mapGmap';
+
+            document.querySelector('article').appendChild(mapcanvas);
+
+            var latlng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+            var myOptions = {
+            zoom: 15,
+            center: latlng,
+            mapTypeControl: false,
+            navigationControlOptions: {style: google.maps.NavigationControlStyle.SMALL},
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI: true
+            };
+            var gMap = new google.maps.Map(document.getElementById("mapGmap"), myOptions);
+
+            var marker = new google.maps.Marker({
+              position: latlng, 
+              map: gMap, 
+              title:"You are here! (at least within a "+position.coords.accuracy+" meter radius)"
+            });
+
+            var lMap = L.map('mapLeaflet').setView([position.coords.latitude, position.coords.longitude], 13);
+            L.tileLayer('http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(lMap);
+        }
+
+        function error(msg) {
+          var s = document.querySelector('#status');
+          s.innerHTML = typeof msg == 'string' ? msg : "failed";
+        }
+
         }])
     .controller('AnimController',['$scope', function($scope){
         $scope.title="Animation";

@@ -260,3 +260,12 @@ footer{
   margin: auto;
   overflow: hidden;
 }
+
+/*Geolocation*/
+#mapLeaflet,
+#mapGmap{
+  position: relative;
+  height: 400px;
+  width: 600px;
+  margin: 25px;
+}
