@@ -18,6 +18,7 @@ config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/vid', {templateUrl: 'partials/video.html', controller: 'VidController'});
   $routeProvider.when('/db', {templateUrl: 'partials/database.html', controller: 'DBController'});
   $routeProvider.when('/gps', {templateUrl: 'partials/gps.html', controller: 'GPSController'});
+  $routeProvider.when('/animSet', {templateUrl: 'partials/animationSetting.html', controller: 'AnimSetController'});
   $routeProvider.when('/anim', {templateUrl: 'partials/animation.html', controller: 'AnimController'});
   $routeProvider.otherwise({redirectTo: '/home'});
 }]);

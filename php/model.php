@@ -3,6 +3,15 @@
 	$m = new Model();
 	$code = $_POST['code'] ? $_POST['code'] :'null';
 	switch ($code) {
+		case 'getDataLimited':
+			$from = $_POST['data']['from'] ? $_POST['data']['from'] : null;
+			$size = $_POST['data']['size'] ? $_POST['data']['size'] : null;
+			if($from!=null && $size !=null){
+				$m->getDataLimited(array('from'=>$from,'size'=>$size));
+			}else{
+				$m->getDataLimited(array('from'=>0,'size'=>10));
+			}
+		break;
 		case 'getDataByID':
 			$id = $_POST['data']['id'] ? $_POST['data']['id'] : 'null';
 			if($id!=null){
@@ -52,6 +61,29 @@ class Model {
 		$sql = "SELECT *
 			FROM ".$this->table."
 			WHERE 1";
+		$result = mysql_query($sql,$this->db);
+		if($result){
+			$out="[";
+			while($row = mysql_fetch_assoc($result)){
+				if ($out != "[") {$out .= ",";}
+				$out.='{"id_dataset":"'.$row['id_dataset'].'",';
+				$out.='"number":"'.$row['number'].'",';
+				$out.='"string":"'.$row['string'].'"}';
+			}
+			$out .=']';
+			echo($out);
+		}else{
+			echo("Error : Select Request \n");
+			echo($sql);
+			die ("\nerr:".mysql_error());
+		}
+	}
+
+	function getDataLimited($arg){
+		$sql = "SELECT *
+			FROM ".$this->table."
+			WHERE 1
+			LIMIT ".$arg['from'].",".$arg['size'];
 		$result = mysql_query($sql,$this->db);
 		if($result){
 			$out="[";

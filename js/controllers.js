@@ -1,132 +1,5 @@
 'use strict';
 /*Data*/
-        //bdd offre = (id,titre,description,logo,date_ajout,date_fin,positionX,positionY,promo,unite)
-        //offre_cat
-        //cat = alimentaire, beaute, bijoux, mode, hightech, sport, livre, deco, jeux
-var data = [{
-        id : '0',
-        titre : 'Maintenant tous au jogging',
-        description : 'Offre Flash : -15% sur tout le magasin.',
-        logo : 'img/logos/entr2.png',
-        background : 'img/logos/bg_big.png',
-        date_ajout : '2014-01-02',
-        time : '00003006',
-        time_h : '30:06',
-        timer: 'img/icons/temps_restant_green_maxi.png',
-        color : 'red',
-        cat : ['Sport','Beauté & bien-être'],
-        position : '200m',
-        distance : 200,
-        promo : '-15',
-        unite : '%',
-        star : false
-    },
-    {
-        id : '1',
-        titre : 'Mangez pas cher',
-        description : 'A partir de 10 visites supérieur à 10€, 20% sont offerts sur la 11 ème visite.',
-        logo : 'img/logos/entr3.png',
-        background : 'img/logos/bg_big3.png',
-        date_ajout : '2014-01-01',
-        time: '00030500',
-        time_h : '3j05h',
-        timer: 'img/icons/temps_restant_green_mini.png',
-        cat: ['Alimentaire'],
-        position : '3.4km',
-        distance : 3400,
-        promo : '-20',
-        unite : '%',
-        star : false
-    },
-    {
-        id : '2',
-        titre : 'Promotion : Bouquet',
-        description : 'Offre flash le Samedi entre 17h-18h -10% sur tout le magasin.',
-        logo : 'img/logos/entr4.png',
-        background : 'img/logos/bg_big5.png',
-        date_ajout : '2014-01-04',
-        time: '00020500',
-        time_h : '2j05h',
-        timer: 'img/icons/temps_restant_green_mini.png',
-        cat: ['Meuble & déco'],
-        position : '250m',
-        distance : 250,
-        promo : '-10',
-        unite : '%',
-        star : false
-    },
-    {
-        id : '3',
-        titre : 'Mangez moi vite!',
-        description : 'Offre de bienvenue -10% pour la première visite sans conditions sur le montant de l’achat. ',
-        logo : 'img/logos/entr5.png',
-        background : 'img/logos/bg_big1.png',
-        date_ajout : '2014-01-05',
-        time: '00080500',
-        time_h : '8j05h',
-        timer: 'img/icons/temps_restant_green_mini.png',
-        cat: ['Alimentaire'],
-        position : '300m',
-        distance : 300,
-        promo : '-10',
-        unite : '%',
-        star : false
-    },
-    {
-        id : '4',
-        titre : 'Toujours moins cher',
-        description : 'Spéciale entrée scolaire promotion de -20% sur tout le magasin',
-        logo : 'img/logos/entr6.png',
-        background : 'img/logos/bg_big2.png',
-        date_ajout : '2014-01-06',
-        time: '00020000',
-        time_h : '2j00h',
-        timer: 'img/icons/temps_restant_green_mini.png',
-        cat: ['Hifi, photo, vidéo'],
-        position : '150m',
-        distance : 150,
-        promo : '-20',
-        unite : '%',
-        star : false
-    },
-    {
-        id : '5',
-        titre : 'Promotion : CoiffMe',
-        description : 'A la 4ième visite une réduction de 5 € sur tout le magasin.',
-        logo : 'img/logos/entr1.png',
-        background : 'img/logos/bg_big4.png',
-        date_ajout : '2014-01-03',
-        time: '00070000',
-        time_h : '7j00h',
-        timer: 'img/icons/temps_restant_green_mini.png',
-        cat: ['Mode','Beauté & bien-être'],
-        position : '1.5km',
-        distance : 1500,
-        promo : '5',
-        unite : '€',
-        star : false
-    },
-];
-
-var filtreAfficher =[
-    {state:'w',title:'Alimentaire'},
-    {state:'w',title:'Beauté & bien-être'},
-    {state:'w',title:'Bijoux & montres'},
-    {state:'w',title:'Mode'},
-    {state:'w',title:'Hifi, photo, vidéo'},
-    {state:'w',title:'Sport'},
-    {state:'w',title:'Livres, musiques'},
-    {state:'w',title:'Meuble & déco'},
-    {state:'w',title:'Jeux & jouets'}
-];
-
-var filtreTrier=[
-    {state:'b',title:'Expiration'},
-    {state:'w',title:'Les plus proches'},
-    {state:'w',title:'Derniers ajoutés'}
-];
-/********************************************************************/
-
 var picSet = {
     dimensions:[
         {id:'0',name:'Random'},
@@ -141,7 +14,8 @@ var picSet = {
         {id:'1',name:'JPG'},
         {id:'2',name:'PNG'},
         {id:'3',name:'GIF'},
-        {id:'4',name:'ICO'}
+        {id:'4',name:'ICO'},
+        {id:'5',name:'SVG'}
     ]
 };
 var vidSet ={
@@ -159,6 +33,14 @@ var vidSet ={
     ]
 };
 
+var aniSet = {
+    animations:[
+    {id:'0',name:'space'},
+    {id:'1',name:'bubble'},
+    {id:'2',name:'3D'}
+    ]
+};
+
 
 /* Controllers */
 angular.module('myApp.controllers', ['ui.map', 'ui.event'])
@@ -168,7 +50,7 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
         {title:'Videos',url:'#/vid'},
         {title:'Database',url:'#/db'},
         {title:'GPS',url:'#/gps'},
-        {title:'Animation',url:'#/anim'}];
+        {title:'Animation',url:'#/animSet'}];
     }])
     .controller('PicSetController',['$scope', '$location', 'picSetService' , function($scope, $location, picSetService){
         //Initializing
@@ -208,7 +90,7 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
         var format = picSetService.getFormat();
 
         //Setting gallery
-        if(format=='ICO'||format=='GIF'){
+        if(format=='ICO'||format=='GIF'||format=='SVG'){
             setGallery(nbElements,{dim:format,format:format});
         }else{
             if(dimension=="Random"){
@@ -270,6 +152,7 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
                 break;
                 default:
                     for(var i=0;i<count;i++){
+                        console.log(opt);
                         $scope.gallery.push({url:'img/pictures/'+opt.dim+'.'+opt.format,name:opt.dim+'.'+opt.format});
                     }
                 break;
@@ -326,22 +209,33 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
         $scope.title="Database";
         $scope.step = 0;
         
-        model.getAll(function(obj){
-            setAvailableActions(obj.length);
-        });
+        $scope.page=1;
+        //$scope.dataToDisplay=[];
+        refreshPage();    
         
-        function setAvailableActions(nb){
-            if(nb>0){
-                $("#btnSelect").removeAttr('disabled');
-                $("#btnUpdate").removeAttr('disabled');
-                $("#btnDelete").removeAttr('disabled');
-            }else{
-                $("#btnSelect").attr('disabled','disabled');
-                $("#btnUpdate").attr('disabled','disabled');
-                $("#btnDelete").attr('disabled','disabled');
-            }
+        function refreshPage(){
+            $scope.page=1;
+            model.getAll(function(obj){
+                $scope.pageMax = Math.ceil(obj.length/10);
+                if(obj.length>0){
+                    $("#btnSelect").removeAttr('disabled');
+                    $("#btnUpdate").removeAttr('disabled');
+                    $("#btnDelete").removeAttr('disabled');
+                    $("#btnPrevious").attr('disabled','disabled');
+                    $("#btnNext").removeAttr('disabled');
+                }else{
+                    $("#btnSelect").attr('disabled','disabled');
+                    $("#btnUpdate").attr('disabled','disabled');
+                    $("#btnDelete").attr('disabled','disabled');
+                }
+                loadData();
+            });
         }
 
+        /*
+         * @brief display the progress bar properly
+         * @param config = {progress, loop, state, mode}
+         */
         function proceed(config){
             $('.currentProgress').css('width',config.progress*100/config.loop+"%");
             if(parseInt($('.currentProgress').css('width').split('px')[0])+2>parseInt($('.progressBar').css('width').split('px')[0])){
@@ -364,6 +258,10 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
             }
         }
 
+        /*
+         * @brief Acting on the database
+         * - Displaying the result at the end
+         */
         function loop(code,config){
             var progressBar = 0;
             var i=0;
@@ -381,6 +279,7 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
                             }
                         });
                     }
+
                 break;
                 case 'update':
                     var state = 'Updating Data...';
@@ -422,6 +321,38 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
         }
         
         //Listeners
+        function loadData(){
+            model.getDataLimited({from:$scope.page},function(obj){
+                if(obj){
+                    $scope.dataToDisplay = obj;
+                    console.log($scope.dataToDisplay);
+                    if($scope.page>=$scope.pageMax){
+                        $("#btnPrevious").removeAttr('disabled');;
+                        $("#btnNext").attr('disabled','disabled');
+                    }else if($scope.page <= 1){
+                        $("#btnPrevious").attr('disabled','disabled');
+                        $("#btnNext").removeAttr('disabled');
+                    }else{
+                        $("#btnPrevious").removeAttr('disabled');
+                        $("#btnNext").removeAttr('disabled');
+                    }
+                }
+            });
+        }
+
+        $scope.pagination=function(action){
+            switch(action){
+                case 'next':
+                    $scope.page++;
+                    loadData();
+                break;
+                case 'previous':
+                    $scope.page--;
+                    loadData();
+                break;
+            }
+        }
+
         /*
          * mode : optional 0:default; 1:run
          */
@@ -530,9 +461,7 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
 
         $scope.done=function(){
             $('#progress').css('display','none');
-            model.getAll(function(obj){
-                setAvailableActions(obj.length);
-            });
+            refreshPage();
         }
     })
     .controller('GPSController',['$scope', function($scope){
@@ -580,6 +509,31 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
         }
 
         }])
-    .controller('AnimController',['$scope', function($scope){
+    .controller('AnimSetController',['$scope', '$location', 'animSetService', function($scope, $location, animSetService){
+        $scope.title="Animation Setting";
+        $scope.animations = aniSet.animations;
+        $scope.selectAnim = $scope.animations[0].id;
+
+        /*
+         * Listeners
+         */
+        $scope.run = function(){
+            var animID = $('#selectAnim').val();
+            animSetService.setAnimation($scope.animations[animID].name);
+            $location.path('anim');
+        }
+
+        }])
+    .controller('AnimController',['$scope', 'animSetService', function($scope, animSetService){
         $scope.title="Animation";
+        $scope.animation=animSetService.getAnimation();
+        /*switch(){
+            case 'space':
+            break;
+            case 'bubble':
+                
+            break;
+            case '3D':
+            break;
+        }*/
         }]);

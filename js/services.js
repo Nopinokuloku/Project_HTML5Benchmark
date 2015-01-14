@@ -43,6 +43,17 @@ angular.module('myApp.services', []).
       }
     };
   })
+  .service('animSetService',function(){
+    var animation ="";
+    return {
+      getAnimation: function(){
+        return animation;
+      },
+      setAnimation: function(anim){
+        animation=anim;
+      }
+    };
+  })
   .service('model',function(){
     return{
       insert:function(config,callback){
@@ -128,6 +139,23 @@ angular.module('myApp.services', []).
             }
         }).then(function(){callback(JSONObject);});
         //return JSONObject;
+      },
+      getDataLimited:function(config,callback){
+        var JSONObject;
+        $.ajax({
+            url:"php/model.php",
+            type:'POST',
+            data:({
+                code:'getDataLimited',
+                data : ({from:config.from,size:10})
+            }),
+            success:function(e){
+              JSONObject = JSON.parse(e);
+              console.log("Select request done successfully");
+            },error:function(e){
+                console.log('Error : AJAX');
+            }
+        }).then(function(){callback(JSONObject);});
       }
     };
   })

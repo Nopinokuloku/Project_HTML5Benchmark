@@ -1,0 +1,8 @@
+<div><h1>{{title}}</h1></div>
+<div>
+	<span>Animation : </span>
+	<select id='selectAnim' class="form-control" ng-model='selectAnim' required ng-options='anime.id as anime.name for anime in animations'></select>
+	<div class="center">
+		<div class="btn run" ng-click="run()">Run</div>
+	</div>
+</div>
