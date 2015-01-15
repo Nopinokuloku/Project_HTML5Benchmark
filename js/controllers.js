@@ -527,13 +527,69 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
     .controller('AnimController',['$scope', 'animSetService', function($scope, animSetService){
         $scope.title="Animation";
         $scope.animation=animSetService.getAnimation();
-        /*switch(){
+        
+        switch($scope.animation){
+            case '3D':
+                $scope.faces=[
+                    {style:'transform: translateZ(150px); background-color:rgba('+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',1)+')'},
+                    {style:'transform: translateZ(-150px); background-color:rgba('+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',1)+')'},
+                    {style:'transform:translateX(150px) rotateY(90deg);background-color:rgba('+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',1)+')'},
+                    {style:'transform:translateX(-150px) rotateY(-90deg);background-color:rgba('+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',1)+')'},
+                    {style:'transform:translateY(150px) rotateX(90deg);background-color:rgba('+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',1)+')'},
+                    {style:'transform:translateY(-150px) rotateX(-90deg);background-color:rgba('+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',1)+')'}
+                ];
+            break;
+        }
+
+
+        /*Test*/
+        /*$scope.move=function(){
+            console.log('isMoving');
+            if($('#item').hasClass('end')){
+                $('#item').removeClass('end');
+                //$('item').addClass('begin');
+            }else{
+                //$('item').removeClass('begin');
+                $('#item').addClass('end');
+            }
+        }*/
+
+        /*var canvas = document.getElementById('animationCanvas');
+        paper.setup(canvas);
+        paper.view.draw();
+        switch($scope.animation){
             case 'space':
             break;
             case 'bubble':
-                
+                /*Main
+                var balls = [];
+                var numBalls = 18;
+                for (var i = 0; i < numBalls; i++) {
+                    var position = paper.Point.random() * paper.view.size;
+                    var vector = new paper.Point({
+                        angle: 360 * Math.random(),
+                        length: Math.random() * 10
+                    });
+                    var radius = Math.random() * 60 + 60;
+                    console.log(position);
+                    balls.push(new Ball(radius, position, vector));
+                }
+                while(true){
+                    onFrame();
+                }
             break;
             case '3D':
             break;
+        }
+         function onFrame() {
+            for (var i = 0; i < balls.length - 1; i++) {
+                for (var j = i + 1; j < balls.length; j++) {
+                    balls[i].react(balls[j]);
+                }
+            }
+            for (var i = 0, l = balls.length; i < l; i++) {
+                balls[i].iterate();
+            }
+            console.log('called');
         }*/
         }]);

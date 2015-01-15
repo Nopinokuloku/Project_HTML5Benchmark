@@ -1,2 +1,15 @@
-<script type="text/paperscript" src="bower_components/bubble.js" canvas="animationCanvas"></script>
-<canvas id="animationCanvas" resize hidpi="off" style="background:black"></canvas>
+<!--<article ng-click='move()' id='screen'>
+	<div id='item' class='begin'>
+	</div>
+</article>-->
+
+
+<article>
+	<div class="animation">
+		<div class="animate3D">
+			<div ng-repeat="item in faces track by $index" class="img3D" style="{{item.style}}"></div>
+		</div>
+	</div>
+</article>
+
+<!--<canvas id="animationCanvas" resize hidpi="off" style="background:black"></canvas>-->

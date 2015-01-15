@@ -7,7 +7,7 @@ function Ball(r, p, v) {
     this.boundOffset = [];
     this.boundOffsetBuff = [];
     this.sidePoints = [];
-    this.path = new Path({
+    this.path = new paper.Path({
         fillColor: {
             hue: Math.random() * 360,
             saturation: 1,
@@ -19,8 +19,8 @@ function Ball(r, p, v) {
     for (var i = 0; i < this.numSegment; i ++) {
         this.boundOffset.push(this.radius);
         this.boundOffsetBuff.push(this.radius);
-        this.path.add(new Point());
-        this.sidePoints.push(new Point({
+        this.path.add(new paper.Point());
+        this.sidePoints.push(new paper.Point({
             angle: 360 / this.numSegment * i,
             length: 1
         }));
@@ -108,26 +108,3 @@ Ball.prototype = {
     }
 };
 
-/*Main*/
-var balls = [];
-var numBalls = 18;
-for (var i = 0; i < numBalls; i++) {
-    var position = Point.random() * view.size;
-    var vector = new Point({
-        angle: 360 * Math.random(),
-        length: Math.random() * 10
-    });
-    var radius = Math.random() * 60 + 60;
-    balls.push(new Ball(radius, position, vector));
-}
-console.log("hello");
-function onFrame() {
-    for (var i = 0; i < balls.length - 1; i++) {
-        for (var j = i + 1; j < balls.length; j++) {
-            balls[i].react(balls[j]);
-        }
-    }
-    for (var i = 0, l = balls.length; i < l; i++) {
-        balls[i].iterate();
-    }
-}

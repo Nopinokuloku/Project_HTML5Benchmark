@@ -1,10 +1,18 @@
 /*
  * @brief - create random data
  */
- function randomGen(mode){
+ function randomGen(mode,opt){
     switch(mode){
         case 'num':
-            return Math.floor(Math.random()*1000);
+            if(opt){
+                if(opt>1){
+                    return Math.floor(Math.random()*opt);
+                }else{
+                    return Math.random()*opt;
+                }
+            }else{
+                return Math.floor(Math.random()*1000);
+            }
         break;
         case 'str':
             var letters = '0123456789ABCDEF'.split('');

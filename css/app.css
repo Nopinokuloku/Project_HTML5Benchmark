@@ -270,6 +270,35 @@ z-index: 2;
 }
 
 /*Animation*/
+@-webkit-keyframes anim{
+    from { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+    to   { transform: rotateX(360deg) rotateY(720deg) rotateZ(1080deg); }
+}
+
+.animation{
+  width: 600px;
+  height: 340px;
+  margin: auto;
+  margin-top: 70px;
+}
+
+.animate3D{
+  position: absolute;
+  width: inherit;
+  height: inherit;
+  transform-style: preserve-3d;
+  -webkit-animation: anim linear infinite 15s;
+  z-index: 1;
+}
+
+.img3D{
+  position: absolute;
+  left: 180px;
+  top: 70px;
+  height: 250px;
+  width: 250px;
+}
+
 #animationCanvas{
   height: 100%;
   width: 100%;
