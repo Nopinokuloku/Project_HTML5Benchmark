@@ -44,10 +44,31 @@ angular.module('myApp.services', []).
     };
   })
   .service('animSetService',function(){
-    var animation ="";
+    var animation ="Bubble";
+    var nbElement = 0;
+    var size = 0;
+    var opacity = 1;
     return {
+      getNbElement:function(){
+        return nbElement;
+      },
+      getSize: function(){
+        return size;
+      },
+      getOpacity: function(){
+        return opacity;
+      },
       getAnimation: function(){
         return animation;
+      },
+      setNbElement: function(nb){
+        nbElement = nb;
+      },
+      setSize: function(s){
+        size = s;
+      },
+      setOpacity: function(o){
+        opacity = o;
       },
       setAnimation: function(anim){
         animation=anim;

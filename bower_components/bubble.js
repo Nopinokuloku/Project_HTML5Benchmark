@@ -4,8 +4,8 @@
  * - dom
  */
 function bubble(opt){
-  var width = 960,
-    height = 500;
+  var width = 600,
+    height = 340;
 
   var n = opt.nb,
       m = 12,
@@ -33,7 +33,7 @@ function bubble(opt){
   var head = g.append("ellipse")
       .attr("rx", opt.size)
       .attr("ry", opt.size)
-      .attr("style",'fill:rgba('+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',1)+')');
+      .attr("style",'fill:rgba('+randomGen('num',255)+','+randomGen('num',255)+','+randomGen('num',255)+','+opt.opacity+')');
 
   d3.timer(function() {
     for (var i = -1; ++i < n;) {

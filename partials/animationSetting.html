@@ -2,6 +2,15 @@
 <div>
 	<span>Animation : </span>
 	<select id='selectAnim' class="form-control" ng-model='selectAnim' required ng-options='anime.id as anime.name for anime in animations'></select>
+	<br>
+	<div id='setBubble' ng-if='selectAnim==0'>
+		<span>Number of elements to generate :</span>
+		<input id="selectNbElements" class="form-control" type='number' placeholder="Number of elements to generate" min="1"></input>
+		<span>Size of bubble :</span>
+		<input id="selectSize" class="form-control" type='number' placeholder="Size of bubble" min="10"></input>
+		<span>Opacity : </span>
+		<input id="selectOpacity" class="form-control" type='number' placeholder="Opacity" min="0" max="1"></input>
+	</div>
 	<div class="center">
 		<div class="btn run" ng-click="run()">Run</div>
 	</div>

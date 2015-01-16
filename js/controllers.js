@@ -519,6 +519,18 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
         $scope.run = function(){
             var animID = $('#selectAnim').val();
             animSetService.setAnimation($scope.animations[animID].name);
+            if($scope.animations[animID].name=='Bubble'){
+                var nbElements = parseInt($('#selectNbElements').val());
+                var size = parseInt($('#selectSize').val());
+                var opacity = $('#selectOpacity').val();
+                if(isNaN(nbElements) || isNaN(size) || isNaN(opacity)){
+                    alert("Please fill all fields.");
+                }else{
+                    animSetService.setNbElement(nbElements);
+                    animSetService.setSize(size);
+                    animSetService.setOpacity(opacity);
+                }
+            }
             $location.path('anim');
         }
 
@@ -539,7 +551,7 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
                 ];
             break;
             case 'Bubble':
-                bubble({dom:'screen',nb:100,size:50});
+                bubble({dom:'screen',nb:animSetService.getNbElement(),size:animSetService.getSize(), opacity:animSetService.getOpacity()});
             break;
         }
     }]);
