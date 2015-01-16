@@ -187,14 +187,6 @@ z-index: 2;
 }
 
 /*Picture*/
-/*#pictureBlock{
-  height: 64px;
-  width: 64px;
-}
-
-#pictureBlock>img{
-  border: 1px solid rgb(178,178,178);
-}*/
 
 #pictureBlock{
   height: 100%;
@@ -249,8 +241,6 @@ z-index: 2;
 
 #toast>h1{
   text-align: center;
-  /*color: white;
-  margin: 170px;*/
 }
 
 #task{
@@ -275,17 +265,23 @@ z-index: 2;
     to   { transform: rotateX(360deg) rotateY(720deg) rotateZ(1080deg); }
 }
 
-.animation{
+/*#screen{
   width: 600px;
   height: 340px;
   margin: auto;
   margin-top: 70px;
+}*/
+#screen{
+  height: 100%;
+  width: 100%;
+  /*position: relative;*/
 }
 
 .animate3D{
   position: absolute;
-  width: inherit;
-  height: inherit;
+  margin-top: 70px;
+  width: 600px;
+  height: 340px;
   transform-style: preserve-3d;
   -webkit-animation: anim linear infinite 15s;
   z-index: 1;
@@ -299,7 +295,6 @@ z-index: 2;
   width: 250px;
 }
 
-#animationCanvas{
-  height: 100%;
-  width: 100%;
+/*spermato*/
+ellipse {
 }
