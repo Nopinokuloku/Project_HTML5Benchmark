@@ -134,7 +134,7 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
                     for(var i=0;i<count;i++){
                         do{
                             opt.format = picSet.formats[Math.floor((Math.random()*(picSet.formats.length-1))+1)].name;
-                        }while(opt.format=='GIF'||opt.format=='ICO');
+                        }while(opt.format=='GIF'||opt.format=='ICO'||opt.format=='SVG');
                         $scope.gallery.push({url:'img/pictures/'+opt.dim+'.'+opt.format,name:opt.dim+'.'+opt.format});
                     }
                 break;
@@ -142,7 +142,7 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
                     for(var i=0;i<count;i++){
                         opt.dim = picSet.dimensions[Math.floor((Math.random()*(picSet.dimensions.length-1))+1)].name;
                         opt.format = picSet.formats[Math.floor((Math.random()*(picSet.formats.length-1))+1)].name;
-                        if(opt.format=='ICO'||opt.format=='GIF'){
+                        if(opt.format=='ICO'||opt.format=='GIF'||opt.format=='SVG'){
                             $scope.gallery.push({url:'img/pictures/'+opt.format+'.'+opt.format,name:opt.format+'.'+opt.format});
                         }else{
                             $scope.gallery.push({url:'img/pictures/'+opt.dim+'.'+opt.format,name:opt.dim+'.'+opt.format});
@@ -151,7 +151,6 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
                 break;
                 default:
                     for(var i=0;i<count;i++){
-                        console.log(opt);
                         $scope.gallery.push({url:'img/pictures/'+opt.dim+'.'+opt.format,name:opt.dim+'.'+opt.format});
                     }
                 break;
@@ -166,7 +165,7 @@ angular.module('myApp.controllers', ['ui.map', 'ui.event'])
         var gesturableImg = new ImgTouchCanvas({
             canvas: document.getElementById('picCanvas'),
             path: url,
-            desktop: false
+            desktop: true
         });
         }])
     .controller('VidController',['$scope', function($scope){

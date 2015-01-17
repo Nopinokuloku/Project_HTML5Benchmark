@@ -18,8 +18,8 @@ This code may be freely distributed under the MIT License
         }
 
         this.canvas         = options.canvas;
-        this.canvas.width   = this.canvas.clientWidth;
-        this.canvas.height  = this.canvas.clientHeight;
+        this.canvas.width   = 720;//this.canvas.clientWidth;
+        this.canvas.height  = 1080;//this.canvas.clientHeight;
         this.context        = this.canvas.getContext('2d');
 
         this.desktop = options.desktop || false; //non touch events
@@ -34,12 +34,9 @@ This code may be freely distributed under the MIT License
         };
 
         //loading image
-        this.support = new Image();
-        this.support.src = 'img/pictures/support.png';
         this.imgTexture = new Image();
         this.imgTexture.src = options.path;
 
-        //$('#pictureBlock').css({'width':this.support.width},{'height':this.support.height});
 
         this.lastZoomScale = null;
         this.lastX = null;
@@ -63,11 +60,9 @@ This code may be freely distributed under the MIT License
                     var scaleRatio = null;
                     if(this.canvas.clientWidth > this.canvas.clientHeight) {
                         scaleRatio = this.canvas.clientWidth / this.imgTexture.width;
-                        //scaleRatio = this.canvas.clientWidth / this.support.width;
                     }
                     else {
                         scaleRatio = this.canvas.clientHeight / this.imgTexture.height;
-                        //scaleRatio = this.canvas.clientHeight / this.support.height;
                     }
                     this.scale.x = scaleRatio;
                     this.scale.y = scaleRatio;
@@ -82,11 +77,6 @@ This code may be freely distributed under the MIT License
                 this.position.x,this.position.y, 
                 this.scale.x*this.imgTexture.width, 
                 this.scale.y*this.imgTexture.height);
-            /*this.context.drawImage(
-                this.support,this.position.x,this.position.y,
-                this.scale.x*this.support.width,
-                this.scale.y*this.support.height);*/
-
 
             requestAnimationFrame(this.animate.bind(this));
         },
